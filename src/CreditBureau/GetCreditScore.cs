@@ -17,7 +17,7 @@ namespace CreditBureau
         
         [FunctionName("GetCreditScore")]
         public static IActionResult Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "GetCreditScore/{ssn}")] string ssn,
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "GetCreditScore/{ssn}")] HttpRequest req, string ssn,
             ILogger log)
         {
             log.LogInformation("Requesting Credit Score.");
@@ -33,7 +33,7 @@ namespace CreditBureau
         private static int GetRandom(int min, int max)
         {
             var random = new Random();
-            return min + (int)Math.Floor((double) random.Next() * (max - min));
+            return random.Next(min, max);
         }
     }
 }
