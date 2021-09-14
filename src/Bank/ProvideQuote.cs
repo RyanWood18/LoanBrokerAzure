@@ -32,7 +32,7 @@ namespace Bank
         private static double CalculateRate(int creditScore)
         {
             var random = new Random();
-            return BaseRate * random.Next() * ((1000 - creditScore) / 100f);
+            return BaseRate * random.Next(10) /10 * ((1000 - creditScore) / 100f);
         }
     }
 
