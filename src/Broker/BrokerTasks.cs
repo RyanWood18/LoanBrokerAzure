@@ -8,6 +8,7 @@ using Broker.Entities;
 using Microsoft.Azure.Cosmos.Table;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
+using Microsoft.Extensions.Logging;
 using SendGrid.Helpers.Mail;
 
 namespace Broker
@@ -16,20 +17,20 @@ namespace Broker
     {
         private static readonly HttpClient httpClient = new HttpClient();
         [FunctionName(nameof(GetCreditScore))]
-        public static async Task<CreditScore> GetCreditScore([ActivityTrigger] string ssn)
+        public static async Task<CreditScore> GetCreditScore([ActivityTrigger] string ssn, ILogger log)
         {
             var creditBureau = Environment.GetEnvironmentVariable("CreditBureauUrl");
-            var requestUri = $"{creditBureau}/{ssn}";
+            var requestUri = string.Format(creditBureau, ssn);
             var request = await httpClient.GetAsync(requestUri);
 
-            var score = JsonSerializer.Deserialize<CreditScore>(await request.Content.ReadAsStringAsync());
-
+            var score = JsonSerializer.Deserialize<CreditScore>(await request.Content.ReadAsStringAsync(), new JsonSerializerOptions{PropertyNameCaseInsensitive = true});
+            log.LogInformation($"Received credit score of {score.Score}");
             return score;
         }
 
-        [FunctionName(nameof(RequestQuotations))]
-        public static async Task<LoanRequestEntity> RequestQuotations([ActivityTrigger] LoanRequestContext request,
-            [ServiceBus("LoanQuotation", Connection = "ServiceBusConnection")]
+        [FunctionName(nameof(GetQuotations))]
+        public static async Task<LoanRequestEntity> GetQuotations([ActivityTrigger] LoanRequestContext request,
+            [ServiceBus("LoanQuoteRequest", Connection = "ServiceBusConnection")]
             IAsyncCollector<LoanRequestWithCreditScore> loanMessageCollector, [Table("LoanRequests")] IAsyncCollector<LoanRequestEntity> loanRequestCollector)
         {
             var requestId = Guid.NewGuid().ToString();

@@ -13,7 +13,7 @@ namespace Broker
             builder.AppendLine("<tbody>");
             foreach (var quote in quotes)
             {
-                builder.AppendLine($"<tr><td>{quote.BankId}</td><td>{quote.Rate}</td></tr>");
+                builder.AppendLine($"<tr><td>{quote.BankId}</td><td>{quote.Rate:N2}</td></tr>");
             }
             builder.AppendLine("</tbody>");
             builder.AppendLine("</table>");

@@ -1,7 +1,5 @@
-using System.Net.Http;
 using System.Threading.Tasks;
 using Broker.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
@@ -14,16 +12,12 @@ namespace Broker
     {
         [FunctionName("RequestQuotations")]
         public static async Task<IActionResult> HttpStart(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post")]
-            HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Function,  "post")]
+            LoanRequest loanRequest,
             [DurableClient] IDurableOrchestrationClient starter,
             ILogger log)
         {
-            var ssn = req.Query["ssn"];
-            var loanAmount = req.Query["amount"];
-
-            var loanRequest = new LoanRequest {SSN = ssn, Amount = decimal.Parse(loanAmount)};
-
+            log.LogInformation($"About to start loan request for SSN: {loanRequest.SSN}");
             var orchestrationId = await starter.StartNewAsync(nameof(BrokerOrchestration.RunOrchestrator), loanRequest);
 
             return new OkObjectResult(starter.CreateHttpManagementPayload(orchestrationId));

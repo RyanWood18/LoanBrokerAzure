@@ -10,24 +10,25 @@ namespace Broker
 {
     public static class BrokerOrchestration
     {
-        [FunctionName("BrokerOrchestration")]
+        [FunctionName("RunOrchestrator")]
         public static async Task<List<string>> RunOrchestrator(
             [OrchestrationTrigger] IDurableOrchestrationContext context, ILogger log)
         {
             log = context.CreateReplaySafeLogger(log);
             var loanRequest = context.GetInput<LoanRequest>();
             var outputs = new List<string>();
-
+            log.LogInformation("Fetching Credit Score");
             var creditScore =
                 await context.CallActivityAsync<CreditScore>(nameof(BrokerTasks.GetCreditScore), loanRequest.SSN);
             var requestContext = new LoanRequestContext
                 {CreditScore = creditScore, LoanRequest = loanRequest, OrchestrationId = context.InstanceId};
-
-            var request = await context.CallActivityAsync<LoanRequestEntity>(nameof(BrokerTasks.RequestQuotations), requestContext);
+            log.LogInformation("Requesting Quotations");
+            var request = await context.CallActivityAsync<LoanRequestEntity>(nameof(BrokerTasks.GetQuotations), requestContext);
             
             try
             {
                 var completion = await context.WaitForExternalEvent<CompletedRequest>("QuotationsReceived", TimeSpan.FromSeconds(60));
+                log.LogInformation("Two or more quotations received");
                 await context.CallActivityAsync(nameof(BrokerTasks.NotifyAllQuotesReceived), completion);
             }
             catch (TimeoutException)

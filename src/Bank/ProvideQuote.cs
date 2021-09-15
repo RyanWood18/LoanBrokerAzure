@@ -18,6 +18,7 @@ namespace Bank
             ILogger log, 
             [ServiceBus("LoanQuotation", Connection="ServiceBusConnection")] IAsyncCollector<Quotation> collector)
         {
+            log.LogInformation($"Bank {BankId} evaluating request {request.RequestId} to borrow {request.Amount} with credit score {request.CreditScore.Score}");
             if (request.Amount > MaxLoanAmount || request.CreditScore.Score<MinimumCreditScore)
             {
                 log.LogInformation($"Loan criteria for request {request.RequestId} rejected by bank {BankId} ");
