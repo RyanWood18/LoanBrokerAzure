@@ -406,3 +406,8 @@ ASALocalRun/
 
 .vscode/
 default.profraw
+
+.terraform/
+*.tfstate*
+*.tfvars
+.terraform.*
