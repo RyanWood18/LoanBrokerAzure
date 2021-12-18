@@ -27,3 +27,13 @@ variable "Location" {
   type = string
   description = "Location"
 }
+
+variable "ServiceBusNs" {
+  type = string
+  description = "Service Bus namespace"
+}
+
+variable "CreditBureauName" {
+  type = string
+  description = "Credit Bureau function app name"
+}
