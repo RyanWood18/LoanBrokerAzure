@@ -73,10 +73,13 @@ steps:
     backendAzureRmStorageAccountName: '$(tfBackendStorageAcc)'
     backendAzureRmContainerName: '$(tfBackendContainer)'
     backendAzureRmKey: '$(tfBackendRmKey)'
+  displayName: "Terraform Init"
 - task: TerraformTaskV2@2
   inputs:
     provider: 'azurerm'
     command: 'apply'
     workingDirectory: 'build/tf'
-    commandOptions: '-var=''Bank1Name=$(Bank1Name)'' -var=''Bank2Name=$(Bank2Name)'' -var=''Bank3Name=$(Bank3Name)'' -var=''BrokerName=$(BrokerName)'' -var=''StorageAccountName=$(StorageAccountName)'' -var=''Location=$(Location)'' -var=''ServiceBusNs=$(ServiceBusNs)'' -var=''CreditBureauName=$(CreditBureauName)'''
+    commandOptions: '-var="Bank1Name=$(Bank1Name)" -var="Bank2Name=$(Bank2Name)" -var="Bank3Name=$(Bank3Name)" -var="BrokerName=$(BrokerName)" -var="StorageAccountName=$(StorageAccountName)" -var="Location=$(Location)" -var="ServiceBusNs=$(ServiceBusNs)" -var="CreditBureauName=$(CreditBureauName)"'
     environmentServiceNameAzureRM: 'Default Azure Connection'
+  displayName: "Deploy infrastructure"
+  name: "DeployInfra"
