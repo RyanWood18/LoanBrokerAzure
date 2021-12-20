@@ -98,7 +98,7 @@ steps:
     appName: '$(Bank1Name)'
     package: '$(System.DefaultWorkingDirectory)/Bank/*.zip'
     runtimeStack: 'DOTNET|3.1'
-    appSettings: '-APPINSIGHTS_CONNECTION_STRING $(AppInsightsConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(AppInsightsKey) -ServiceBusConnection $(SbConnection) -SubscriptionName $(Bank1Name) -MinimumCreditScore $(Bank1MinimumScore) -MaximumLoan $(Bank1MaximumLoan) -BaseRate $(BaseRate) -BankId $(Bank1Name)'
+    appSettings: '-APPINSIGHTS_CONNECTION_STRING $(AppInsightsConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(AppInsightsKey) -ServiceBusConnection $(SbConnection) -SubscriptionName $(Bank1Name) -MinimumCreditScore $(Bank1MinimumScore) -MaxLoanAmount $(Bank1MaximumLoan) -BaseRate $(BaseRate) -BankId $(Bank1Name)'
 - task: AzureFunctionApp@1
   displayName: "Deploy Bank 2"
   inputs:
@@ -107,7 +107,7 @@ steps:
     appName: '$(Bank2Name)'
     package: '$(System.DefaultWorkingDirectory)/Bank/*.zip'
     runtimeStack: 'DOTNET|3.1'
-    appSettings: '-APPINSIGHTS_CONNECTION_STRING $(AppInsightsConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(AppInsightsKey) -ServiceBusConnection $(SbConnection) -SubscriptionName $(Bank2Name) -MinimumCreditScore $(Bank2MinimumScore) -MaximumLoan $(Bank2MaximumLoan) -BaseRate $(BaseRate) -BankId $(Bank2Name)'
+    appSettings: '-APPINSIGHTS_CONNECTION_STRING $(AppInsightsConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(AppInsightsKey) -ServiceBusConnection $(SbConnection) -SubscriptionName $(Bank2Name) -MinimumCreditScore $(Bank2MinimumScore) -MaxLoanAmount $(Bank2MaximumLoan) -BaseRate $(BaseRate) -BankId $(Bank2Name)'
 - task: AzureFunctionApp@1
   displayName: "Deploy Bank 3"
   inputs:
@@ -116,7 +116,7 @@ steps:
     appName: '$(Bank3Name)'
     package: '$(System.DefaultWorkingDirectory)/Bank/*.zip'
     runtimeStack: 'DOTNET|3.1'
-    appSettings: '-APPINSIGHTS_CONNECTION_STRING $(AppInsightsConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(AppInsightsKey) -ServiceBusConnection $(SbConnection) -SubscriptionName $(Bank3Name) -MinimumCreditScore $(Bank3MinimumScore) -MaximumLoan $(Bank3MaximumLoan) -BaseRate $(BaseRate) -BankId $(Bank3Name)'
+    appSettings: '-APPINSIGHTS_CONNECTION_STRING $(AppInsightsConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(AppInsightsKey) -ServiceBusConnection $(SbConnection) -SubscriptionName $(Bank3Name) -MinimumCreditScore $(Bank3MinimumScore) -MaxLoanAmount $(Bank3MaximumLoan) -BaseRate $(BaseRate) -BankId $(Bank3Name)'
 - task: AzureFunctionApp@1
   displayName: "Deploy Broker"
   inputs:
