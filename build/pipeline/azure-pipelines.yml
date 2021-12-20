@@ -9,11 +9,6 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-variables:
-- name: AppInsightsConnection
-- name: AppInsightsKey
-- name: SbConnection
-
 steps:
 - script: |
     dotnet restore src
