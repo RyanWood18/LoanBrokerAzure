@@ -77,13 +77,19 @@ steps:
 - task: TerraformTaskV2@2
   inputs:
     provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: 'build/tf'
+    environmentServiceNameAzureRM: '$(Connection)'
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
     command: 'apply'
     workingDirectory: 'build/tf'
     commandOptions: '-var="Bank1Name=$(Bank1Name)" -var="Bank2Name=$(Bank2Name)" -var="Bank3Name=$(Bank3Name)" -var="BrokerName=$(BrokerName)" -var="StorageAccountName=$(StorageAccountName)" -var="Location=$(Location)" -var="ServiceBusNs=$(ServiceBusNs)" -var="CreditBureauName=$(CreditBureauName)"'
-    environmentServiceNameAzureRM: 'Default Azure Connection'
+    environmentServiceNameAzureRM: '$(Connection)'
   displayName: "Deploy infrastructure"
   name: "DeployInfra"
 - bash: |
     APP_INSIGHTS_CONNECTION=$(cat $(DeployInfra.jsonOutputVariablesPath) | jq '.app_insights_connection.value' -r)
-    echo "##vso[task.setvariable variable=AppInsighsKey]$APP_INSIGHTS_CONNECTION"
+    echo "##vso[task.setvariable variable=AppInsightsKey]$APP_INSIGHTS_CONNECTION"
     echo "Key is $(APPINSIGHTSKEY)"
