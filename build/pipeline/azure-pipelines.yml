@@ -51,19 +51,19 @@ steps:
   inputs:
     rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output/Bank"
     includeRootFolder: false
-    archiveFile: "$(System.DefaultWorkingDirectory)/Bank_build$(Build.BuildId).zip"
+    archiveFile: "$(System.DefaultWorkingDirectory)/Bank/build$(Build.BuildId).zip"
 - task: ArchiveFiles@2
   displayName: "Archive Broker files"
   inputs:
     rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output/Broker"
     includeRootFolder: false
-    archiveFile: "$(System.DefaultWorkingDirectory)/Broker_build$(Build.BuildId).zip"
+    archiveFile: "$(System.DefaultWorkingDirectory)/Broker/build$(Build.BuildId).zip"
 - task: ArchiveFiles@2
   displayName: "Archive Credit Bureau files"
   inputs:
     rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output/CreditBureau"
     includeRootFolder: false
-    archiveFile: "$(System.DefaultWorkingDirectory)/Bank_build$(Build.BuildId).zip"
+    archiveFile: "$(System.DefaultWorkingDirectory)/CreditBureau/build$(Build.BuildId).zip"
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: 'latest'
@@ -102,4 +102,12 @@ steps:
     echo "##vso[task.setvariable variable=AppInsightsKey]$APP_INSIGHTS_KEY"
     echo "##vso[task.setvariable variable=AppInsightsConnection]$APP_INSIGHTS_CONNECTION"
     echo "##vso[task.setvariable variable=SbConnection]$SB_CONNECTION"
-    echo "Key is $(AppInsightsConnection)"
+- task: AzureFunctionApp@1
+  displayName: "Deploy Bank 1"
+  inputs:
+    azureSubscription: 'Default Azure Connection'
+    appType: 'functionAppLinux'
+    appName: '$(Bank1Name)'
+    package: '$(System.DefaultWorkingDirectory)/Bank/*.zip'
+    runtimeStack: 'DOTNET|3.1'
+    appSettings: '-APPINSIGHTS_CONNECTION_STRING $(AppInsightsConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(AppInsightsKey) -ServiceBusConnection $(SbConnection)'
