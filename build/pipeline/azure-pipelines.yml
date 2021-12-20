@@ -67,9 +67,8 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
-    workingDirectory: 'build/tf'
-    backendServiceArm: "$(Subscription)"
-    backendAzureRmResourceGroupName: "$(tfBackendRg)"
-    backendAzureRmStorageAccountName: "$(tfBackendStorageAcc)"
-    backendAzureRmContainerName: "$(tfBackendContainer)"
-    backendAzureRmKey: "$(tfBackendRmKey)"
+    backendServiceArm: 'Default Azure Connection'
+    backendAzureRmResourceGroupName: 'TerraformRG'
+    backendAzureRmStorageAccountName: 'woodisstfrg'
+    backendAzureRmContainerName: 'terraform'
+    backendAzureRmKey: 'terraform.tfstate'
