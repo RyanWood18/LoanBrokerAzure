@@ -208,7 +208,7 @@ resource "azurerm_servicebus_queue" "quotation_queue" {
   namespace_name      = azurerm_servicebus_namespace.servicebus_ns.name
 }
 
-resource "azurerm_servicebus_namespace_authorization_rule" "service-bus-auth-rule" {
+resource "azurerm_servicebus_namespace_authorization_rule" "service_bus_auth_rule" {
   name                = "LoanBrokerReadWriteRule"
   namespace_name      = azurerm_servicebus_namespace.servicebus_ns.name
   resource_group_name = azurerm_resource_group.brokergroup.name
@@ -239,4 +239,19 @@ resource "azurerm_servicebus_subscription" "bank3_subscription" {
   namespace_name      = azurerm_servicebus_namespace.servicebus_ns.name
   topic_name          = azurerm_servicebus_topic.request_topic.name
   max_delivery_count  = 1
+}
+
+output "app_insights_key" {
+    value =  azurerm_application_insights.application_insights.instrumentation_key
+    sensitive = true
+}
+
+output "app_insights_connection" {
+    value =  azurerm_application_insights.application_insights.connection_string
+    sensitive = true
+}
+
+output "sb_connection" {
+    value = azurerm_servicebus_namespace_authorization_rule.service_bus_auth_rule.connection_string
+    sensitive = true
 }
