@@ -10,19 +10,19 @@ pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
 - script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    dotnet restore src
+    dotnet build src --configuration Release
+  displayName: 'Build apps'  
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'build'
-    projects: '**/*.csproj'
-  displayName: 'Build function apps'
-  name: 'BuildApps'
+    command: publish
+    arguments: '--configuration Release --output publish_output'
+    projects: '*.csproj'
+    publishWebProjects: false
+    modifyOutputPath: false
+    zipAfterPublish: false
+  displayName: 'Publish apps'  
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: 'latest'
