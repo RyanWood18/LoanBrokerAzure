@@ -67,7 +67,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
-    backendServiceArm: 'Default Azure Connection'
+    backendServiceArm: '$(Connection)'
     backendAzureRmResourceGroupName: 'TerraformRG'
     backendAzureRmStorageAccountName: 'woodisstfrg'
     backendAzureRmContainerName: 'terraform'
