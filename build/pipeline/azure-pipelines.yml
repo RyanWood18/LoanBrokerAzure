@@ -86,4 +86,4 @@ steps:
 - bash: |
     APP_INSIGHTS_CONNECTION=$(cat $(DeployInfra.jsonOutputVariablesPath) | jq '.app_insights_connection.value' -r)
     echo "##vso[task.setvariable variable=AppInsighsKey]$APP_INSIGHTS_CONNECTION"
-    echo "Key is $(APPINSIGHTSKEY)%
+    echo "Key is $(APPINSIGHTSKEY)"
