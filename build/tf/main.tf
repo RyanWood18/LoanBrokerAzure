@@ -167,7 +167,7 @@ resource "azurerm_function_app" "broker" {
   }
 }
 
-resource "azurerm_function_app" "broker" {
+resource "azurerm_function_app" "creditbureau" {
   name                       = var.CreditBureauName
   location                   = azurerm_resource_group.brokergroup.location
   resource_group_name        = azurerm_resource_group.brokergroup.name
