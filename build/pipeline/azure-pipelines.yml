@@ -63,3 +63,13 @@ steps:
   inputs:
     terraformVersion: 'latest'
   displayName: "Terraform install"
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: 'build/tf'
+    backendServiceArm: $(Subscription)
+    backendAzureRmResourceGroupName: $(tfBackendRg)
+    backendAzureRmStorageAccountName: $(tfBackendStorageAcc)
+    backendAzureRmContainerName: $(tfBackendContainer)
+    backendAzureRmKey: $(tfBackendRmKey)
