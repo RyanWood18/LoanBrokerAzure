@@ -79,6 +79,7 @@ steps:
     provider: 'azurerm'
     command: 'plan'
     workingDirectory: 'build/tf'
+    commandOptions: '-var="Bank1Name=$(Bank1Name)" -var="Bank2Name=$(Bank2Name)" -var="Bank3Name=$(Bank3Name)" -var="BrokerName=$(BrokerName)" -var="StorageAccountName=$(StorageAccountName)" -var="Location=$(Location)" -var="ServiceBusNs=$(ServiceBusNs)" -var="CreditBureauName=$(CreditBureauName)"'
     environmentServiceNameAzureRM: '$(Connection)'
 - task: TerraformTaskV2@2
   inputs:
