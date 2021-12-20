@@ -252,6 +252,6 @@ output "app_insights_connection" {
 }
 
 output "sb_connection" {
-    value = azurerm_servicebus_namespace_authorization_rule.service_bus_auth_rule.connection_string
+    value = azurerm_servicebus_namespace_authorization_rule.service_bus_auth_rule.primary_connection_string
     sensitive = true
 }
