@@ -9,6 +9,11 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+- name: AppInsightsConnection
+- name: AppInsightsKey
+- name: SbConnection
+
 steps:
 - script: |
     dotnet restore src
@@ -92,5 +97,9 @@ steps:
   name: "DeployInfra"
 - bash: |
     APP_INSIGHTS_CONNECTION=$(cat $(DeployInfra.jsonOutputVariablesPath) | jq '.app_insights_connection.value' -r)
-    echo "##vso[task.setvariable variable=AppInsightsKey]$APP_INSIGHTS_CONNECTION"
-    echo "Key is $APP_INSIGHTS_CONNECTION"
+    APP_INSIGHTS_KEY=$(cat $(DeployInfra.jsonOutputVariablesPath) | jq '.app_insights_key.value' -r)
+    SB_CONNECTION=$(cat $(DeployInfra.jsonOutputVariablesPath) | jq '.sb_connection.value' -r)
+    echo "##vso[task.setvariable variable=AppInsightsKey]$APP_INSIGHTS_KEY"
+    echo "##vso[task.setvariable variable=AppInsightsConnection]$APP_INSIGHTS_CONNECTION"
+    echo "##vso[task.setvariable variable=SbConnection]$SB_CONNECTION"
+    echo "Key is $(AppInsightsConnection)"
