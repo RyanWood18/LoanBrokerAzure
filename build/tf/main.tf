@@ -23,6 +23,15 @@ resource "azurerm_storage_account" "brokerstorage" {
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
+
+resource "azurerm_storage_table" "quotation_table" {
+  name                 = "Quotations"
+  storage_account_name = azurerm_storage_account.brokerstorage.name
+}
+resource "azurerm_storage_table" "requests_table" {
+  name                 = "LoanRequests"
+  storage_account_name = azurerm_storage_account.brokerstorage.name
+}
 resource "azurerm_application_insights" "application_insights" {
   name                = "loan-broker-application-insights"
   location            = azurerm_resource_group.brokergroup.location
