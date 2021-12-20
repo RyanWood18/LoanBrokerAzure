@@ -13,16 +13,52 @@ steps:
 - script: |
     dotnet restore src
     dotnet build src --configuration Release
-  displayName: 'Build apps'  
+  displayName: "Build apps"
 - task: DotNetCoreCLI@2
   inputs:
     command: publish
-    arguments: '--configuration Release --output publish_output'
-    projects: '**/*.csproj'
+    arguments: '--configuration Release --output publish_output/Bank'
+    projects: 'src/Bank/Bank.csproj'
     publishWebProjects: false
     modifyOutputPath: false
     zipAfterPublish: false
-  displayName: 'Publish apps'  
+  displayName: "Publish Bank app"
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    arguments: '--configuration Release --output publish_output/Broker'
+    projects: 'src/Broker/Broker.csproj'
+    publishWebProjects: false
+    modifyOutputPath: false
+    zipAfterPublish: false
+  displayName: "Publish Broker app"
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    arguments: '--configuration Release --output publish_output/CreditBureau'
+    projects: 'src/CreditBureau/CreditBureau.csproj'
+    publishWebProjects: false
+    modifyOutputPath: false
+    zipAfterPublish: false
+  displayName: "Publish CreditBureau app"
+- task: ArchiveFiles@2
+  displayName: "Archive Bank files"
+  inputs:
+    rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output/Bank"
+    includeRootFolder: false
+    archiveFile: "$(System.DefaultWorkingDirectory)/Bank_build$(Build.BuildId).zip"
+- task: ArchiveFiles@2
+  displayName: "Archive Broker files"
+  inputs:
+    rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output/Broker"
+    includeRootFolder: false
+    archiveFile: "$(System.DefaultWorkingDirectory)/Broker_build$(Build.BuildId).zip"
+- task: ArchiveFiles@2
+  displayName: "Archive Credit Bureau files"
+  inputs:
+    rootFolderOrFile: "$(System.DefaultWorkingDirectory)/publish_output/CreditBureau"
+    includeRootFolder: false
+    archiveFile: "$(System.DefaultWorkingDirectory)/Bank_build$(Build.BuildId).zip"
 - task: TerraformInstaller@0
   inputs:
     terraformVersion: 'latest'
