@@ -67,6 +67,7 @@ steps:
   inputs:
     provider: 'azurerm'
     command: 'init'
+    workingDirectory: 'build/tf'
     backendServiceArm: '$(Connection)'
     backendAzureRmResourceGroupName: '$(tfBackendRg)'
     backendAzureRmStorageAccountName: '$(tfBackendStorageAcc)'
