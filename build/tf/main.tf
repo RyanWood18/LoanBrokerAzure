@@ -244,7 +244,7 @@ resource "azurerm_servicebus_subscription" "bank3_subscription" {
 }
 
 data "azurerm_function_app_host_keys" "creditBureauKey" {
-  name                = var.CreditBureauName
+  name                = azurerm_function_app.creditbureau.name
   resource_group_name = azurerm_resource_group.brokergroup.name
 }
 
