@@ -1,7 +1,7 @@
 terraform {
   backend "azurerm" {
   }
-  
+
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
@@ -120,8 +120,6 @@ resource "azurerm_function_app" "bank_1" {
     "WEBSITE_RUN_FROM_PACKAGE" = "",
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet",
     "FUNCTIONS_EXTENSION_VERSION" = "~3"
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.application_insights.instrumentation_key,
-    "APPINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.application_insights.connection_string,
   }
 }
 
@@ -138,8 +136,6 @@ resource "azurerm_function_app" "bank_2" {
     "WEBSITE_RUN_FROM_PACKAGE" = "",
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet",
     "FUNCTIONS_EXTENSION_VERSION" = "~3"
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.application_insights.instrumentation_key,
-    "APPINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.application_insights.connection_string,
   }
 }
 
@@ -156,8 +152,6 @@ resource "azurerm_function_app" "bank_3" {
     "WEBSITE_RUN_FROM_PACKAGE" = "",
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet",
     "FUNCTIONS_EXTENSION_VERSION" = "~3"
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.application_insights.instrumentation_key,
-    "APPINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.application_insights.connection_string,
   }
 }
 
@@ -174,8 +168,6 @@ resource "azurerm_function_app" "broker" {
     "WEBSITE_RUN_FROM_PACKAGE" = "",
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet",
     "FUNCTIONS_EXTENSION_VERSION" = "~3"
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.application_insights.instrumentation_key,
-    "APPINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.application_insights.connection_string,
   }
 }
 
@@ -192,8 +184,6 @@ resource "azurerm_function_app" "creditbureau" {
     "WEBSITE_RUN_FROM_PACKAGE" = "",
     "FUNCTIONS_WORKER_RUNTIME" = "dotnet",
     "FUNCTIONS_EXTENSION_VERSION" = "~3"
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = azurerm_application_insights.application_insights.instrumentation_key,
-    "APPINSIGHTS_CONNECTION_STRING" = azurerm_application_insights.application_insights.connection_string,
   }
 }
 
@@ -253,6 +243,11 @@ resource "azurerm_servicebus_subscription" "bank3_subscription" {
   max_delivery_count  = 1
 }
 
+data "azurerm_function_app_host_keys" "creditBureauKey" {
+  name                = var.CreditBureauName
+  resource_group_name = azurerm_resource_group.brokergroup.name
+}
+
 output "app_insights_key" {
     value =  azurerm_application_insights.application_insights.instrumentation_key
     sensitive = true
@@ -266,4 +261,13 @@ output "app_insights_connection" {
 output "sb_connection" {
     value = azurerm_servicebus_namespace_authorization_rule.service_bus_auth_rule.primary_connection_string
     sensitive = true
+}
+
+output "credit_bureau_key" {
+    value = data.azurerm_function_app_host_keys.creditBureauKey.default_function_key
+    sensitive = true
+}
+
+output "credit_bureau_url" {
+    value = azurerm_function_app.creditbureau.default_hostname
 }
