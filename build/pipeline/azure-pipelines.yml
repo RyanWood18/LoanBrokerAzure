@@ -129,7 +129,7 @@ steps:
     appName: '$(BrokerName)'
     package: '$(System.DefaultWorkingDirectory)/Broker/*.zip'
     runtimeStack: 'DOTNET|3.1'
-    appSettings: '-APPINSIGHTS_CONNECTION_STRING $(AppInsightsConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(AppInsightsKey) -ServiceBusConnection $(SbConnection) -FromEmailAdress $(FromEmailAddress) -CreditBureauUrl $(CreditCheckUrl) -AzureWebJobsSendGridApiKey $(SendGridApiKey)'
+    appSettings: '-APPINSIGHTS_CONNECTION_STRING $(AppInsightsConnection) -APPINSIGHTS_INSTRUMENTATIONKEY $(AppInsightsKey) -ServiceBusConnection $(SbConnection) -FromEmailAddress $(FromEmailAddress) -CreditBureauUrl $(CreditCheckUrl) -AzureWebJobsSendGridApiKey $(SendGridApiKey)'
 - task: AzureFunctionApp@1
   displayName: "Deploy Credit Bureau"
   inputs:
