@@ -92,7 +92,7 @@ steps:
     echo "##vso[task.setvariable variable=AppInsightsKey]$APP_INSIGHTS_KEY"
     echo "##vso[task.setvariable variable=AppInsightsConnection]$APP_INSIGHTS_CONNECTION"
     echo "##vso[task.setvariable variable=SbConnection]$SB_CONNECTION"
-    echo "##vso[task.setvariable variable=CreditCheckUrl]'$CB_HOST/api/GetCreditScore/{0}/?code=$CB_KEY'"
+    echo "##vso[task.setvariable variable=CreditCheckUrl]https://$CB_HOST/api/GetCreditScore/{0}/?code=$CB_KEY"
 
 - task: AzureFunctionApp@1
   displayName: "Deploy Bank 1"
